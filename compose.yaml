@@ -1,0 +1,40 @@
+services:
+  backend:
+    build:
+      context: backend
+    command: npm run start
+    environment:
+      - DATABASE_DB=emma
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_HOST=db
+      - CPA=100
+      - MAX=200
+      - MIN=30
+    ports:
+      - "8765:8765"
+    networks:
+      - public
+      - private
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - private
+    environment:
+      - MYSQL_DATABASE=emma
+      - MYSQL_ROOT_PASSWORD=password
+
+networks:
+  public:
+  private:
+volumes:
+  db-data:

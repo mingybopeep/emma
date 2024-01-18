@@ -1,0 +1,1 @@
+export type Band = { max: number; min: number };
